@@ -3,6 +3,10 @@
     --color-points: hsl(229, 25%, 31%);
     --color-score: hsl(229, 64%, 46%);
     --color-border: hsl(217, 16%, 45%);
+
+    --color-scissors: hsl(39, 89%, 49%), hsl(40, 84%, 53%);
+    --color-paper: hsl(230, 89%, 62%), hsl(230, 89%, 65%);
+    --color-rock: hsl(349, 71%, 52%), hsl(349, 70%, 56%);
 }
 
 * {
@@ -25,8 +29,8 @@ header {
     display: flex;
     justify-content: space-between;
     margin: 0 auto;
-    max-width: 800px;
-    padding: 12px 24px;
+    max-width: 600px;
+    padding: 12px 24px; 
 }
 
 h1 {
@@ -53,4 +57,69 @@ h1 span {
     display: block;
     font-size: 54px;
     line-height: 42px;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 600px;
+    padding: 160px 0;
+}
+
+.options {
+    aspect-ratio: 313 / 278;
+    background-image: url("./images/bg-triangle.svg");
+    background-size: cover;
+    margin: 0 auto;
+    position: relative;
+    width: 50%;
+}
+
+.options button {   
+    position: absolute;
+    width: 50%;
+}
+
+.button {
+    aspect-ratio: 1 /1;
+    align-items: center;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+}
+
+.button img {
+    width: 50%;
+}
+
+.button__image-container {
+    align-items: center;
+    background-color: var(--color-main);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    height: 80%;
+    width: 80%;
+}
+
+.button--paper {
+    background: linear-gradient(var(--color-paper));
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%);
+}
+
+.button--scissors {
+    background: linear-gradient(var(--color-scissors));
+    right: 0;
+    top: 0;
+    transform: translate(50%, -50%);
+}
+
+.button--rock {
+    background: linear-gradient(var(--color-rock));
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 50%);
 }
