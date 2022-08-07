@@ -55,31 +55,41 @@ const hiddenOptions = () => {
 const showFight = () => {
     document.querySelector(".fight").classList.remove("hidden");
     createElementPickedByPlayer();
-    //createElementPickedByAI();
+    createElementPickedByAI();
 };
 
 const createElementPickedByPlayer = () => {
     const playerPick = state.playerPick;
+    const pickContainerElement = document.querySelector(".pick__container--player");
+    pickContainerElement.innerHTML = "";
+    pickContainerElement.appendChild(createPickElement(playerPick));    
+}
 
-    const buttonElement = document.createElement("div");
-    buttonElement.classList.add("button", `button--${playerPick}`);
+const createElementPickedByAI = () => {
+    const AIPick = state.AIPick;
+    const pickContainerElement = document.querySelector(".pick__container--ai");
+    pickContainerElement.innerHTML = "";
+    pickContainerElement.appendChild(createPickElement(AIPick)); 
+}
+
+const createPickElement = (options) => {
+    const pickElement = document.createElement("div");
+    pickElement.classList.add("button", `button--${options}`);
 
     const imageContainerElement = document.createElement("div");
     imageContainerElement.classList.add("button__image-container");
 
     const imgElement = document.createElement("img");
-    imgElement.src = `./images/icon-${playerPick}.svg`;
-    imgElement.alt = playerPick;
-debugger
+    imgElement.src = `./images/icon-${options}.svg`;
+    imgElement.alt = options;
+
     imageContainerElement.appendChild(imgElement);
 
-    buttonElement.appendChild(imageContainerElement);
+    pickElement.appendChild(imageContainerElement);
 
-    const pickContainerElement = document.querySelector(".pick__container--player");
-    pickContainerElement.innerHTML = "";
-    pickContainerElement.appendChild(buttonElement);
-    debugger
+    return pickElement;
 }
+
 const init = () => {
     renderScore();
     bindPickEvents();

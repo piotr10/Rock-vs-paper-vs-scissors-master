@@ -141,7 +141,7 @@ main {
     display: flex;
 }
 
-.pick__container--player {
+.pick__container {
     width: 75%;
 }
 
