@@ -8,6 +8,12 @@ const AIWinsLSKey = "AIWins";
 playerPick = null;
 AIPick = null;
 
+const winningResultsMap = {
+    paper: ['rock'],
+    rock: ['scissors'],
+    scissors: ['paper'],
+}
+
 let state = {
     playerWins: Number(localStorage.getItem(playerWinsLSKey)) || 0,
     AIWins: Number(localStorage.getItem(AIWinsLSKey)) || 0,
@@ -56,7 +62,44 @@ const showFight = () => {
     document.querySelector(".fight").classList.remove("hidden");
     createElementPickedByPlayer();
     createElementPickedByAI();
+
+    showResult();
 };
+
+const showResult = () => {
+    if(state.AIPick === state.playerPick)
+    {
+        console.log("draw");
+    }
+    else if(winningResultsMap[state.playerPick].includes(state.AIPick))
+    {
+        localStorage.setItem(playerWinsLSKey, state.playerWins + 1);
+        state = {
+            ...state,
+            playerWins: state.playerWins + 1,
+        };        
+    }
+    else
+    {
+        // if(state.playerWins <= 0)
+        // {
+        //     localStorage.setItem(playerWinsLSKey, state.playerWins);
+        // }
+        // else
+        // {
+        //     localStorage.setItem(playerWinsLSKey, state.playerWins - 1);
+        // }        
+        // console.log("ai wins");
+
+        localStorage.setItem(playerWinsLSKey, state.AIWins + 1);
+        state = {
+            ...state,
+            AIWins: state.AIWins + 1,
+        };        
+    }
+
+    renderScore();
+}
 
 const createElementPickedByPlayer = () => {
     const playerPick = state.playerPick;

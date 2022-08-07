@@ -64,6 +64,13 @@ main {
     margin: 0 auto;
     max-width: 600px;
     padding: 160px 0;
+    position: relative;
+}
+
+section {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .options {
@@ -71,7 +78,6 @@ main {
     background-image: url("./images/bg-triangle.svg");
     background-size: cover;
     margin: 0 auto;
-    position: relative;
     width: 50%;
 }
 
