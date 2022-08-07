@@ -20,6 +20,7 @@ body {
     font-family: 'Barlow Semi Condensed', sans-serif;
     min-height: 100vh;
     min-width: 100vw;   
+    overflow: hidden;
     padding: 48px; 
 }
 header {
@@ -63,14 +64,17 @@ h1 span {
 main {
     margin: 0 auto;
     max-width: 600px;
+    min-height: 70vh;
     padding: 160px 0;
     position: relative;
 }
 
 section {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);    
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .options {
@@ -79,6 +83,11 @@ section {
     background-size: cover;
     margin: 0 auto;
     width: 50%;
+}
+
+.options.slide-left {
+    opacity: 0;
+    transform: translate(-200%, -50%);
 }
 
 .options button {   
@@ -143,8 +152,17 @@ section {
 }
 
 .fight {
+    align-items: center;
     color: var(--color-main);
     display: flex;
+    opacity: 0;
+    transform: translate(200%, -50%);
+    width: 100%;
+}
+
+.fight.slide-left {
+    opacity: 1;
+    transform: translate(-50%, -50%);
 }
 
 .pick__container {
@@ -156,13 +174,28 @@ section {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    position: relative;
+    transform: translate(0, 0);
+    transition: transform 0.3s;
     width: 50%;
 }
 
+.pick--ai.moved {
+    transform: translate(25%, 0);
+}
+
+.pick--player.moved {
+    transform: translate(-25%, 0);
+}
+
 .pick__title {
+    bottom: 100%;
     display: block;
+    left: 50%;
     padding-bottom: 36px;
+    position: absolute;
     text-align: center;
+    transform: translate(-50%, 0);
     width: 100%;
 }
 
@@ -175,4 +208,64 @@ section {
 
 .hidden {
     display: none;
+}
+
+.result {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    left: 50%;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    transform: scaleX(0) translate(-50%, -50%);
+    transition: transform 0.3s;
+}
+
+.result.shown {
+    transform: scaleX(1) translate(-50%, -50%);
+}
+
+.result__text {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    width: 100%;
+}
+
+.result__button {
+    border: none;
+    border-radius: 3px;
+    color: hsl(349, 71%, 52%);
+    font-weight: bold;
+    padding: 8px 24px;
+}
+
+@media screen and (max-width: 480px) {
+    .score {
+        padding: 8px 12px;
+    }
+
+    .fight {
+        flex-wrap: wrap;
+    }
+
+    .pick,
+    .pick.moved,
+    .result {
+        left: 0;
+        position: relative;
+        right: 0;
+        transform: translate(0, 0);
+    }
+
+    .result {
+        margin-top: 48px;
+        transform: translate(0, 0) scaleX(0);
+        width: 100%;
+    }
+
+    .result.shown {
+        transform: translate(0, 0) scaleX(1);
+    }
 }

@@ -12,7 +12,7 @@ const winningResultsMap = {
     paper: ['rock'],
     rock: ['scissors'],
     scissors: ['paper'],
-}
+};
 
 let state = {
     playerWins: Number(localStorage.getItem(playerWinsLSKey)) || 0,
@@ -28,7 +28,9 @@ const bindPickEvents = () => {
     document.querySelectorAll(".options button").forEach((button) => {
         button.addEventListener("click", pick);
         });
-    };
+
+        document.querySelector(".result__button").addEventListener("click", reset);
+};
 
 const pick = (e) => {
     pickByPlayer(e.currentTarget.dataset.pick);
@@ -55,24 +57,34 @@ const pickByAI = () => {
 };
 
 const hiddenOptions = () => {
-    document.querySelector(".options").classList.add("hidden");
+    const optionsElement = document.querySelector(".options");
+    optionsElement.classList.add("slide-left");
 };
 
 const showFight = () => {
-    document.querySelector(".fight").classList.remove("hidden");
+    const fightElement = document.querySelector(".fight");
+    fightElement.classList.add("slide-left");    
     createElementPickedByPlayer();
     createElementPickedByAI();
+
+    document.querySelectorAll(".options button").forEach((button) => {
+        button.setAttribute("tabindex", -1);
+        });
+
+        document.querySelector(".result__button").setAttribute("tabindex", 0);
 
     showResult();
 };
 
 const showResult = () => {
+    const resultTextElement = document.querySelector(".result__text");
     if(state.AIPick === state.playerPick)
     {
-        console.log("draw");
+        resultTextElement.innerText = "DRAW";        
     }
     else if(winningResultsMap[state.playerPick].includes(state.AIPick))
     {
+        resultTextElement.innerText = "YOU WIN";
         localStorage.setItem(playerWinsLSKey, state.playerWins + 1);
         state = {
             ...state,
@@ -90,7 +102,7 @@ const showResult = () => {
         //     localStorage.setItem(playerWinsLSKey, state.playerWins - 1);
         // }        
         // console.log("ai wins");
-
+        resultTextElement.innerText = "YOU LOSE";
         localStorage.setItem(playerWinsLSKey, state.AIWins + 1);
         state = {
             ...state,
@@ -98,22 +110,30 @@ const showResult = () => {
         };        
     }
 
+    setTimeout(renderResult, 1000);
+
     renderScore();
-}
+};
+
+const renderResult  = () => {
+    document.querySelector(".result").classList.add("shown");
+    document.querySelector(".pick--player").classList.add("moved");
+    document.querySelector(".pick--ai").classList.add("moved");
+};
 
 const createElementPickedByPlayer = () => {
     const playerPick = state.playerPick;
     const pickContainerElement = document.querySelector(".pick__container--player");
     pickContainerElement.innerHTML = "";
     pickContainerElement.appendChild(createPickElement(playerPick));    
-}
+};
 
 const createElementPickedByAI = () => {
     const AIPick = state.AIPick;
     const pickContainerElement = document.querySelector(".pick__container--ai");
     pickContainerElement.innerHTML = "";
     pickContainerElement.appendChild(createPickElement(AIPick)); 
-}
+};
 
 const createPickElement = (options) => {
     const pickElement = document.createElement("div");
@@ -131,7 +151,21 @@ const createPickElement = (options) => {
     pickElement.appendChild(imageContainerElement);
 
     return pickElement;
-}
+};
+
+const reset = () => {
+    const fightElement = document.querySelector(".fight");
+    fightElement.classList.remove("slide-left");
+
+    const optionsElement = document.querySelector(".options");
+    optionsElement.classList.remove("slide-left");
+
+    document.querySelectorAll(".options button").forEach((button) => {
+        button.setAttribute("tabindex", 0);
+        });
+
+        document.querySelector(".result__button").setAttribute("tabindex", -1);
+};
 
 const init = () => {
     renderScore();
